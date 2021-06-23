@@ -21,16 +21,6 @@ public class FileUtil {
         }
     }
 
-    public static void copyTo(File srcFile, String dstPath) {
-        try {
-            if (srcFile.exists()) {
-                Files.copy(srcFile.toPath(), new File(dstPath).toPath(), StandardCopyOption.REPLACE_EXISTING);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
     public static void copyTo(File srcFile, File dstFile) {
         try {
             if (srcFile.exists()) {

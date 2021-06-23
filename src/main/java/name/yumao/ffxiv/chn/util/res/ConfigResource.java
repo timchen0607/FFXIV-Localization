@@ -2,6 +2,7 @@ package name.yumao.ffxiv.chn.util.res;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 public class ConfigResource {
@@ -31,7 +32,7 @@ public class ConfigResource {
 			this.props = new Properties();
 			this.props.load(this.configStream);
 		} else {
-			this.configReader = new InputStreamReader(new FileInputStream(fileName), "UTF-8");
+			this.configReader = new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8);
 			this.props = new Properties();
 			this.props.load(this.configReader);
 			this.configPath = fileName;
@@ -43,7 +44,7 @@ public class ConfigResource {
 	}
 
 	public void saveProperty(String fileName) throws IOException {
-		this.props.store(new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8"), null);
+		this.props.store(new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8), null);
 	}
 
 }

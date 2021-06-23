@@ -15,8 +15,8 @@ import java.util.HashMap;
 
 public class ReplaceFont {
 
-	private String pathToIndex;
-	private String resourceFolder;
+	private final String pathToIndex;
+	private final String resourceFolder;
 
 	public ReplaceFont(String pathToIndex, String resourceFolder) {
 		this.pathToIndex = pathToIndex;

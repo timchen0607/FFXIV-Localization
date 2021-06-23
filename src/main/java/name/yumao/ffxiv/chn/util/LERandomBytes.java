@@ -1,5 +1,7 @@
 package name.yumao.ffxiv.chn.util;
 
+import java.nio.charset.StandardCharsets;
+
 public class LERandomBytes{
 	private int point = 0;
 	private int spoint = 0;
@@ -111,7 +113,7 @@ public class LERandomBytes{
 	}
 
 	public boolean readBoolean(){
-		return work[point++] == 1? true : false;
+		return work[point++] == 1;
 	}
 
 	public char readChar(){
@@ -240,7 +242,7 @@ public class LERandomBytes{
 
 	public void writeString(String s){
 		try {
-			write(s.getBytes("UTF-8"));
+			write(s.getBytes(StandardCharsets.UTF_8));
 		}catch (Exception e){
 			for (char c: s.toCharArray()){
 				writeChar(c);

@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 
 public class SqPackIndex {
-	private String indexPath;
+	private final String indexPath;
 
 	public SqPackIndex(String indexPath) {
 		this.indexPath = indexPath;

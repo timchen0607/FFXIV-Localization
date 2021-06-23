@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BinaryBlockBuilder {
-	private byte[] data;
+	private final byte[] data;
 	private int dataOffset;
 	public BinaryBlockBuilder(byte[] data) {
 		this.data = data;
@@ -19,7 +19,7 @@ public class BinaryBlockBuilder {
 		List<LERandomBytes> dataHeaders = new ArrayList<>();
 		List<LERandomBytes> dataBodys = new ArrayList<>();
 		LERandomBytes leFile = new LERandomBytes(data);
-		int uncompressedSize = (int)leFile.length();
+		int uncompressedSize = leFile.length();
 		int partCount = (int)Math.ceil(uncompressedSize / 16000f);
 		int dataHeaderLength = 24 + partCount * 8;
 		if(dataHeaderLength < 128){

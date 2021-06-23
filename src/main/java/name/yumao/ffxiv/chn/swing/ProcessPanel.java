@@ -17,29 +17,29 @@ import java.io.File;
 
 public class ProcessPanel extends JFrame implements ActionListener {
 
-    private static Point origin = new Point();
-    private static String title = "FFXIV中文化";
+    private static final Point origin = new Point();
+    private static final String title = "FFXIV中文化";
 
-    private JLabel title_lable = new JLabel(title);
-    private Dimension dimension;
+    private final JLabel title_lable = new JLabel(title);
+    private final Dimension dimension;
 
-    private JButton closeButton = new JButton("x");
-    private JPanel titlePanel = new JPanel();
-    private JPanel bodyPanel = new JPanel();
+    private final JButton closeButton = new JButton("x");
+    private final JPanel titlePanel = new JPanel();
+    private final JPanel bodyPanel = new JPanel();
 
     public JButton unpackButton = new JButton("拆包");
     public JButton repackButton = new JButton("打包");
     public JButton fontPatchButton = new JButton("字體補丁");
 
-    private JLabel langLable = new JLabel("處理語言");
-    private JComboBox<String> langLableVal;
+    private final JLabel langLable = new JLabel("處理語言");
+    private final JComboBox<String> langLableVal;
 
-    private JLabel inputPathLable = new JLabel("來源路徑");
-    private JTextField inputPathField = new JTextField(Config.getProperty("GamePath"));
-    private JButton inputPathButton = new JButton(".");
-    private JLabel comparePathLable = new JLabel("比較路徑");
-    private JTextField comparePathField = new JTextField(Config.getProperty("GameComparePath"));
-    private JButton comparePathButton = new JButton(".");
+    private final JLabel inputPathLable = new JLabel("來源路徑");
+    private final JTextField inputPathField = new JTextField(Config.getProperty("GamePath"));
+    private final JButton inputPathButton = new JButton(".");
+    private final JLabel comparePathLable = new JLabel("比較路徑");
+    private final JTextField comparePathField = new JTextField(Config.getProperty("GameComparePath"));
+    private final JButton comparePathButton = new JButton(".");
 
     public ProcessPanel() {
         super(title);

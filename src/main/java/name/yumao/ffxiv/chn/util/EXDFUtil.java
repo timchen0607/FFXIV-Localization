@@ -3,11 +3,12 @@ package name.yumao.ffxiv.chn.util;
 import name.yumao.ffxiv.chn.model.*;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class EXDFUtil {
 
-    private String pathToIndexSE;
+    private final String pathToIndexSE;
     private List<String> fileList;
 
     public EXDFUtil(String pathToIndexSE) {
@@ -41,7 +42,7 @@ public class EXDFUtil {
             // 根据头文件 轮询资源文件
             for (EXDFPage exdfPage : exhSE.getPages()) {
                 // 获取资源文件的CRC
-                Integer exdFileCRCJA = FFCRC.ComputeCRC((fileName.replace(".EXH", "_" + String.valueOf(exdfPage.pageNum) + "_JA.EXD")).toLowerCase().getBytes());
+                Integer exdFileCRCJA = FFCRC.ComputeCRC((fileName.replace(".EXH", "_" + exdfPage.pageNum + "_JA.EXD")).toLowerCase().getBytes());
                 // 提取对应的文本文件
                 SqPackIndexFile exdIndexFileJA = indexSE.get(filePatchCRC).getFiles().get(exdFileCRCJA);
                 byte[] exdFileJA = null;
@@ -58,7 +59,7 @@ public class EXDFUtil {
                     // 只限文本内容
                     if (exdfDatasetSE.type == 0) {
                         byte[] jaBytes = exdfEntryJA.getString(exdfDatasetSE.offset);
-                        String jaStr = new String(jaBytes, "UTF-8");
+                        String jaStr = new String(jaBytes, StandardCharsets.UTF_8);
                         if(jaStr.contains("teemo.link") || jaStr.contains("sdo.com")){
                             return true;
                         }
@@ -70,7 +71,7 @@ public class EXDFUtil {
     }
 
 
-    private byte[] extractFile(String pathToIndexSE, long dataOffset) throws IOException, FileNotFoundException {
+    private byte[] extractFile(String pathToIndexSE, long dataOffset) throws IOException {
         String pathToOpen = pathToIndexSE;
         int datNum = (int) ((dataOffset & 0xF) / 2L);
         dataOffset -= (dataOffset & 0xF);

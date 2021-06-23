@@ -9,8 +9,8 @@ import java.io.File;
 
 public class PatchThread implements Runnable{
 
-    private String inputFolder;
-    private ProcessPanel processPanel;
+    private final String inputFolder;
+    private final ProcessPanel processPanel;
 
     public PatchThread(String resourceFolder, ProcessPanel processPanel){
         this.inputFolder = resourceFolder;

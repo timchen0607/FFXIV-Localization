@@ -9,8 +9,8 @@ import java.io.File;
 
 public class RepackThread implements Runnable{
 
-    private String resourceFolder;
-    private ProcessPanel processPanel;
+    private final String resourceFolder;
+    private final ProcessPanel processPanel;
 
     public RepackThread(String resourceFolder, ProcessPanel processPanel){
         this.resourceFolder = resourceFolder;

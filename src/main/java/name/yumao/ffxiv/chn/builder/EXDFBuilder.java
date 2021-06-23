@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 
 public class EXDFBuilder {
 
-	private HashMap<Integer, byte[]> exdfEntry;
+	private final HashMap<Integer, byte[]> exdfEntry;
 
 	private int dataOffset;
 	private int headerSize;
@@ -56,8 +56,8 @@ public class EXDFBuilder {
 			dataOffset += data.length + 4 + 2;
 		}
 		header.write(new byte[] { 0x45, 0x58, 0x44, 0x46, 0x00, 0x02, 0x00, 0x00 });
-		header.writeInt((int) dataHeader.length());
-		header.writeInt((int) dataBodys.length());
+		header.writeInt(dataHeader.length());
+		header.writeInt(dataBodys.length());
 
 		return ArrayUtil.append(ArrayUtil.append(header.getWork(), dataHeader.getWork()), dataBodys.getWork());
 	}

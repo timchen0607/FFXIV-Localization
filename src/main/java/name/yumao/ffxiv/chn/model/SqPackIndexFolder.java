@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class SqPackIndexFolder {
-	private int numFiles;
-	private long fileIndexOffset;
+	private final int numFiles;
+	private final long fileIndexOffset;
 	private String name;
-	private HashMap<Integer, SqPackIndexFile> files;
+	private final HashMap<Integer, SqPackIndexFile> files;
 
 	public SqPackIndexFolder(int id, int numFiles, long fileIndexOffset) {
 		this.numFiles = numFiles;
@@ -17,7 +17,7 @@ public class SqPackIndexFolder {
 		this.fileIndexOffset = fileIndexOffset;
 		this.name = null;
 		if (this.name == null)
-			this.name = String.format("0x%x", new Object[] { Integer.valueOf(id) });
+			this.name = String.format("0x%x", Integer.valueOf(id));
 	}
 
 	public void readFiles(LERandomAccessFile ref, boolean isIndex2) throws IOException {

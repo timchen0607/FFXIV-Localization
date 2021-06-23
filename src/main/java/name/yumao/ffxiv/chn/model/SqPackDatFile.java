@@ -10,7 +10,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class SqPackDatFile {
-	private LERandomAccessFile currentFilePointer;
+	private final LERandomAccessFile currentFilePointer;
 
 	public SqPackDatFile(String path) throws FileNotFoundException {
 		this.currentFilePointer = new LERandomAccessFile(path, "r");
@@ -30,7 +30,7 @@ public class SqPackDatFile {
 	
 	@SuppressWarnings("unused")
 	public byte[] extractFile(long fileOffset, Boolean debugMode) throws IOException {
-		boolean debug = (debugMode == null ? false : debugMode);
+		boolean debug = (debugMode != null && debugMode);
 
 		currentFilePointer.seek(fileOffset);
 		// Header Length
@@ -51,7 +51,7 @@ public class SqPackDatFile {
 
 		if (debug) {
 			System.out.println("================================");
-			System.out.println(String.format("File @ %08x", new Object[] { Long.valueOf(fileOffset) }));
+			System.out.println(String.format("File @ %08x", Long.valueOf(fileOffset)));
 			System.out.println("================================");
 			System.out.println("Header Length: " + headerLength);
 			System.out.println("Content Type: " + contentType);
@@ -171,7 +171,7 @@ public class SqPackDatFile {
 
 				if (debug) {
 					System.out.println("Block #" + i);
-					System.out.println("Offset: " + String.format("%X", new Object[] { Integer.valueOf(offset) }));
+					System.out.println("Offset: " + String.format("%X", Integer.valueOf(offset)));
 					System.out.println("Padding: " + padding);
 					System.out.println("Uncompressed Size: " + decompressedBlockSize);
 				}
@@ -228,7 +228,7 @@ public class SqPackDatFile {
 				if (debug) {
 					System.out.println("Decompressing block " + i + " @ file offset: "
 							+ this.currentFilePointer.getFilePointer() + " @ block offset: "
-							+ String.format("%X", new Object[] { Integer.valueOf(dataBlocks[j][i].offset) })
+							+ String.format("%X", Integer.valueOf(dataBlocks[j][i].offset))
 							+ ". Compressed Size: " + compressedBlockSize + " and Decompressed Size: "
 							+ decompressedBlockSize + ". Block Size: " + dataBlocks[j][i].padding);
 				}

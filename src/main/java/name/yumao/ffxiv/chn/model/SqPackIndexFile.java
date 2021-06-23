@@ -16,7 +16,7 @@ public class SqPackIndexFile {
 			if (id2 != -1)
 				this.name = null;
 			if (name == null)
-				this.name = String.format("0x%x", new Object[] { Integer.valueOf(id) });
+				this.name = String.format("0x%x", Integer.valueOf(id));
 		}
 	}
 
@@ -41,7 +41,7 @@ public class SqPackIndexFile {
 		if (id2 != -1)
 			name = null;
 		if (name == null)
-			name = String.format("~%x", new Object[] { Integer.valueOf(id) });
+			name = String.format("~%x", Integer.valueOf(id));
 		return name;
 	}
 

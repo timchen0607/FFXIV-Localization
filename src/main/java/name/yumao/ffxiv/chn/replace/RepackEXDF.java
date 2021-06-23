@@ -13,11 +13,11 @@ import java.util.*;
 import java.util.Map.Entry;
 public class RepackEXDF {
 
-	private String pathToIndexSE;
-	private List<String> fileList;
-	private PercentPanel percentPanel;
+	private final String pathToIndexSE;
+	private final List<String> fileList;
+	private final PercentPanel percentPanel;
 
-	private String lang;
+	private final String lang;
 
 	public RepackEXDF(String pathToIndexSE,PercentPanel percentPanel ) {
 		this.pathToIndexSE = pathToIndexSE;
@@ -74,7 +74,7 @@ public class RepackEXDF {
 					// 分頁編號
 					for (EXDFPage exdfPage : exhSE.getPages()) {
 						// 準備資源檔名稱
-						String exdFileName = (fileName.replace(".EXH", "_" + String.valueOf(exdfPage.pageNum) + "_"+lang+".EXD")).toLowerCase();
+						String exdFileName = (fileName.replace(".EXH", "_" + exdfPage.pageNum + "_"+lang+".EXD")).toLowerCase();
 						// 計算資源檔 hash
 						Integer exdFileCRCJA = FFCRC.ComputeCRC(exdFileName.getBytes());
 						// 透過hash搜尋資源檔位址
@@ -105,7 +105,7 @@ public class RepackEXDF {
 							Integer listEntryIndex = listEntry.getKey();
 							//檢查編號
 							if (!listEntryIndex.toString().equals(fileValues.get(0))  ){
-								throw new Exception("Repack Fail : " +filePath+File.separator+ exdFileName + " - "+listEntryIndex.toString() +"!="+ fileValues.get(0));
+								throw new Exception("Repack Fail : " +filePath+File.separator+ exdFileName + " - "+ listEntryIndex +"!="+ fileValues.get(0));
 							}
 							// 分析每行資料
 							EXDFEntry exdfEntryJA = new EXDFEntry(listEntry.getValue(), exhSE.getDatasetChunkSize());
@@ -196,7 +196,7 @@ public class RepackEXDF {
 		return payloadSize;
 	}
 
-	private byte[] extractFile(String pathToIndex, long dataOffset) throws IOException, FileNotFoundException {
+	private byte[] extractFile(String pathToIndex, long dataOffset) throws IOException {
 		String pathToOpen = pathToIndex;
 		int datNum = (int) ((dataOffset & 0xF) / 2L);
 		dataOffset -= (dataOffset & 0xF);

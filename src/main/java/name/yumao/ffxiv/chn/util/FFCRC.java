@@ -168,7 +168,7 @@ public class FFCRC {
 			System.out.println("File Name: " + file);
 			System.out.println("Signed int: " + crc);
 			System.out.println("Signed hex: " + Integer.toHexString(crc));
-			System.out.println("Unsigned int: " + Long.toString(((long)crc) & 0xffffffffL));
+			System.out.println("Unsigned int: " + (((long) crc) & 0xffffffffL));
 			System.out.println();
 		}
 	}

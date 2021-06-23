@@ -11,13 +11,13 @@ import java.util.HashMap;
 
 public class EXDFFile {
 	private byte[] data;
-	private HashMap<Integer,byte[]> entrys = new HashMap<Integer, byte[]>();
+	private final HashMap<Integer,byte[]> entrys = new HashMap<Integer, byte[]>();
 	
 	public EXDFFile(byte[] data) throws IOException {
 		loadEXDF(data);
 	}
 
-	public EXDFFile(String path) throws IOException, FileNotFoundException {
+	public EXDFFile(String path) throws IOException {
 		File file = new File(path);
 		FileInputStream fis = new FileInputStream(file);
 		byte[] data = new byte[(int) file.length()];

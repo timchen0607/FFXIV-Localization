@@ -22,7 +22,7 @@ public class EXHFFile {
         loadEXHF(data);
     }
 
-    public EXHFFile(String path) throws IOException, FileNotFoundException {
+    public EXHFFile(String path) throws IOException {
         File file = new File(path);
         FileInputStream fis = new FileInputStream(file);
         byte[] data = new byte[(int) file.length()];

@@ -10,17 +10,17 @@ import java.awt.event.*;
 
 public class PercentPanel extends JFrame implements ActionListener {
 
-    private static Point origin = new Point();
+    private static final Point origin = new Point();
     private Dimension dimension;
 
-    private JButton closeButton = new JButton("x");
-    private JPanel titlePanel = new JPanel();
-    private JPanel bodyPanel = new JPanel();
+    private final JButton closeButton = new JButton("x");
+    private final JPanel titlePanel = new JPanel();
+    private final JPanel bodyPanel = new JPanel();
 
-    private JPanel announcePanel = new JPanel();
+    private final JPanel announcePanel = new JPanel();
 
-    private JPanel percentBackPanel = new JPanel();
-    private JPanel percentFrontPanel = new JPanel();
+    private final JPanel percentBackPanel = new JPanel();
+    private final JPanel percentFrontPanel = new JPanel();
 
     public PercentPanel() {
         new PercentPanel("提莫苑|资源应用");

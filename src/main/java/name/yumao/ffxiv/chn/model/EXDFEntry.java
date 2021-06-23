@@ -6,9 +6,9 @@ import java.nio.ByteBuffer;
 
 public class EXDFEntry {
     
-    private byte[] chunk;
-    private byte[] string;
-    private byte[] data;
+    private final byte[] chunk;
+    private final byte[] string;
+    private final byte[] data;
 
     public EXDFEntry(byte[] data, int datasetChunkSize) {
         ByteBuffer buffer = ByteBuffer.wrap(data);

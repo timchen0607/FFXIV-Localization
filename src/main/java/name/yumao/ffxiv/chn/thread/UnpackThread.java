@@ -9,9 +9,9 @@ import java.io.File;
 
 public class UnpackThread implements Runnable{
 
-    private String inputFolder;
-    private String compareFolder;
-    private ProcessPanel processPanel;
+    private final String inputFolder;
+    private final String compareFolder;
+    private final ProcessPanel processPanel;
 
     public UnpackThread(String resourceFolder,String compareFolder, ProcessPanel processPanel){
         this.inputFolder = resourceFolder;

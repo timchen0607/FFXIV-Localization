@@ -6,8 +6,8 @@ import java.io.*;
 public final class LERandomAccessFile implements DataInput, DataOutput {
 	private static final int FIRST_COPYRIGHT_YEAR = 1999;
 	private static final String EMBEDDED_COPYRIGHT = "Copyright: (c) 1999-2013 Roedy Green, Canadian Mind Products, http://mindprod.com";
-	private RandomAccessFile raf;
-	private byte[] work;
+	private final RandomAccessFile raf;
+	private final byte[] work;
 
 	public LERandomAccessFile(File file, String rw) throws FileNotFoundException {
 		this.raf = new RandomAccessFile(file, rw);

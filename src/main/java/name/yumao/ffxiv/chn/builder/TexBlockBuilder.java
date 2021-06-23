@@ -43,7 +43,7 @@ public class TexBlockBuilder {
 			mipmapOffsets[i] = bb.getInt();	
 		}
 		// data header
-		int uncompressedSize = (int)leData.length();
+		int uncompressedSize = leData.length();
 		int partCount = (int)Math.ceil(uncompressedSize / 16000f);
 		int dataHeaderLength = 24 + mipCount * 20 + partCount * 2;
 		if(dataHeaderLength < 128){

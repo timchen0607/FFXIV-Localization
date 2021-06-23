@@ -1,7 +1,7 @@
 package name.yumao.ffxiv.chn.model;
 public class SqPackDataSegment {
-	private int offset;
-	private int size;
+	private final int offset;
+	private final int size;
 	private byte[] sha1 = new byte[20];
 
 	public SqPackDataSegment(int offset, int size, byte[] sha1) {

@@ -27,7 +27,7 @@ public class JLibzSqpacklTools {
 		return (byte) "0123456789ABCDEF".indexOf(c);
 	}
 	public static String bytesToHexString(byte[] src) {
-		StringBuilder stringBuilder = new StringBuilder("");
+		StringBuilder stringBuilder = new StringBuilder();
 		if (src == null || src.length <= 0) {
 			return null;
 		}

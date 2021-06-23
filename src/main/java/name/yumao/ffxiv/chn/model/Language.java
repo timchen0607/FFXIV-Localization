@@ -6,8 +6,8 @@ public enum Language {
     DE("DE", "DE"),
     FR("FR", "FR");
 
-    private String name;
-    private String lang;
+    private final String name;
+    private final String lang;
 
     Language(String name, String lang){
         this.name = name;
