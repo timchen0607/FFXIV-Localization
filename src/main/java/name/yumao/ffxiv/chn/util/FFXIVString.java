@@ -5,6 +5,8 @@
 
 package name.yumao.ffxiv.chn.util;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -126,138 +128,10 @@ public class FFXIVString {
         inBytes.readFully(full);
 
         String outString = null;
-        switch (type){
-//            case TYPE_NONE:
-//                // 无格式
-//                outString = "<none:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_TIME:
-//                // 时间
-//                outString = "<time:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_IF:
-//                break;
-//            case TYPE_SWITCH:
-//                break;
-//            case TYPE_NEWLINE:
-//                // 换行
-//                outString = "<br>";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_ICON:
-//                // 图标1
-//                outString = "<icon1:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_COLOR:
-//                // 颜色
-//
-//                if(body.length == 1 && body[0] == (byte)0xEC){
-//                    outString = "</color>";
-//                }else {
-//                    outString = "<color:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                }
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_ITALICS:
-//                // 斜体
-//                outString = "<italics:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_INDENT:
-//                // 缩进
-//                outString = "<indent:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_ICON2:
-//                // 图标2
-//                outString = "<icon2:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_DASH:
-//                // 破折号
-//                outString = "<dash>";
-//                outBytes.write(outString);
-//                break;
-//
-//            // 服务器传值
-//            case TYPE_SERVER_VALUE0:
-//                outString = "<value0:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_SERVER_VALUE1:
-//                outString = "<value1:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_SERVER_VALUE2:
-//                outString = "<value2:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_SERVER_VALUE3:
-//                outString = "<value3:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_SERVER_VALUE4:
-//                outString = "<value4:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_SERVER_VALUE5:
-//                outString = "<value5:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_SERVER_VALUE6:
-//                outString = "<value6:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//
-//            case TYPE_PLAYERLINK:
-//                // 玩家链接
-//                outString = "<plink:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_REFERENCE:
-//                // 引用
-//                outString = "<ref:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_INFO:
-//                // 信息
-//                outString = "<info:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_LINK:
-//                // 链接
-//                outString = "<link:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_SPLIT:
-//                // 分割
-//                outString = "<split:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                outBytes.write(outString);
-//                break;
-//
-//            case TYPE_STYLE:
-//                if(body.length == 1 && body[0] == (byte)0x01){
-//                    outString = "</style>";
-//                }else {
-//                    outString = "<style:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                }
-//                outBytes.write(outString);
-//                break;
-//            case TYPE_STYLE2:
-//                if(body.length == 1 && body[0] == (byte)0x01){
-//                    outString = "</style2>";
-//                }else {
-//                    outString = "<style2:" + HexUtils.bytesToHexStringWithOutSpace(body) + ">";
-//                }
-//                outBytes.write(outString);
-//                break;
-            default:
-                outString = "<hex:" + HexUtils.bytesToHexStringWithOutSpace(full) + ">";
-                outBytes.write(outString);
-        }
+
+        outString = "<hex:" + HexUtils.bytesToHexStringWithOutSpace(full) + ">";
+        outBytes.write(outString);
+
     }
 
     private static int getBodySize(int payloadSize, LERandomBytes inBytes) {
@@ -279,36 +153,35 @@ public class FFXIVString {
 
     public static byte[] fstr2bytes(String fstr){
         try {
-            if (fstr.contains("<hex:") || fstr.contains("<unk:")){
-                LERandomBytes inBytes = new LERandomBytes(fstr.getBytes("UTF-8"), true, false);
-                LERandomBytes outBytes = new LERandomBytes();
-                Vector<byte[]> outBytesVector = new Vector<byte[]>();
-
-                byte[] newFFXIVStringBytes = new byte[0];
-                while (inBytes.hasRemaining()){
-                    byte b = inBytes.readByte();
-                    if (b == (byte)0x3C) {
-                        outBytesVector.add(outBytes.getWork());
-                        outBytes.clear();
-                        parsePayload2(inBytes, outBytes);
-                        outBytesVector.add(outBytes.getWork());
-                        outBytes.clear();
-                    } else {
-                        outBytes.writeByte(b);
+            if (fstr.contains("<hex:")) {
+                byte[] inBytes = fstr.getBytes("UTF-8");
+                byte[] outBytes = new byte[0];
+                int len = inBytes.length;
+                for(int i=0;i<len;i++){
+                    if( inBytes[i] == (byte)0x3c
+                            && inBytes[i+1]== (byte)0x68
+                            && inBytes[i+2]== (byte)0x65
+                            && inBytes[i+3]== (byte)0x78
+                            && inBytes[i+4]== (byte)0x3a
+                    ){
+                        i+=5;
+                        while(inBytes[i]!= (byte)0x3e){
+                            byte[] tmp = {inBytes[i],inBytes[i+1]};
+                            byte it = (byte)Integer.parseInt(new String(tmp), 16);
+                            outBytes = ArrayUtil.append(outBytes,it);
+                            i+=2;
+                        }
+                    }else{
+                        outBytes = ArrayUtil.append(outBytes, inBytes[i]);
                     }
                 }
-                outBytesVector.add(outBytes.getWork());
-                outBytes.clear();
-                for(byte[] bytes: outBytesVector){
-                    if (bytes.length > 0) {
-                        newFFXIVStringBytes = ArrayUtil.append(newFFXIVStringBytes, bytes);
-                    }
-                }
-                return newFFXIVStringBytes;
-            } else {
+                return outBytes;
+            }else{
                 return fstr.getBytes("UTF-8");
             }
+
         } catch (Exception e) {
+            System.out.println(e);
             return fstr.getBytes();
         }
     }
@@ -696,15 +569,21 @@ public class FFXIVString {
         return payloadSize;
     }
 
-    public static void main(String[] args) {
-        String hex = "E8AEB2E8BFB0E2809C0208F0E0E4E802F24E4FFF13E8B1AAE7A59EE9A1BBE4BD90E4B98BE794B7FFC50208C1E4E802F24E51FF13E7BE8EE7A59EE59089E7A5A5E5A4A9E5A5B3FFA50208A1E4E802F24E52FF07E7A59EE9BE99FF9102088DE4E802F27569FF13E9BE99E7A59EE5B7B4E59388E5A786E789B9FF7102086DE4E802F27573FF0DE7A9B6E69E81E7A59EE585B5FF57020853E4E802F24E54FF07E799BDE8998EFF4302083FE4E802F24E58FF0DE5A49CE7A59EE69C88E8AFBBFF29020825E4E802F24E5AFF07E69CB1E99B80FF15020811E4E802F24E5DFF07E99D92E9BE99FF01030303030303030303E2809DE79A84E69585E4BA8B";
+    public static void main(String[] args) throws IOException {
+        FileWriter fw = new FileWriter("log.txt");
+        String hex = "e59091e79baee6a899e68980e59ca8e696b9e59091e799bce587bae79bb4e7b79ae7af84e59c8de789a9e79086e694bbe6938ae38080024804f201f803024904f201f903e5a881e58a9befbc9a0249020103024802010338353002100103024804f201f803024904f201f903e799bce58b95e6a29de4bbb6efbc9a02490201030248020103024804f201f403024904f201f503e58a8de6b0a3024902010302480201033530e9bb9e020857e4e94523ff4f02084be0e94949ff4302100103e88887024804f201f403024904f201f503e5bf85e6aebae58a8dc2b7e99683e5bdb102490201030248020103e585b1e4baabe8a487e594b1e69982e99693ff0103ff0103";
         String fstr = FFXIVString.parseFFXIVString(HexUtils.hexStringToBytes(hex));
-        System.out.println(new String(HexUtils.hexStringToBytes(hex)));
-        System.out.println(fstr);
-        String fstr2 = "讲述“<hex:0208F0E0E4E802F24E4FFF13E8B1AAE7A59EE9A1BBE4BD90E4B98BE794B7FFC50208C1E4E802F24E51FF13E7BE8EE7A59EE59089E7A5A5E5A4A9E5A5B3FFA50208A1E4E802F24E52FF07E7A59EE9BE99FF9102088DE4E802F27569FF13E9BE99E7A59EE5B7B4E59388E5A786E789B9FF7102086DE4E802F27573FF0DE7A9B6E69E81E7A59EE585B5FF57020853E4E802F24E54FF07E799BDE8998EFF4302083FE4E802F24E58FF0DE5A49CE7A59EE69C88E8AFBBFF29020825E4E802F24E5AFF07E69CB1E99B80FF15020811E4E802F24E5DFF07E99D92E9BE99FF010303030303030303>\u0003”的故事";
-        System.out.println(new String(FFXIVString.fstr2bytes(fstr2)));
-        System.out.println(hex);
-        System.out.println(HexUtils.bytesToHexStringWithOutSpace(FFXIVString.fstr2bytes(fstr2)));
-        System.out.println(HexUtils.bytesToHexString("<>".getBytes()));
+        fw.write(fstr+"\n");
+        String fstr2 = "向目標所在方向發出直線範圍物理攻擊　<hex:024804F201F803><hex:024904F201F903>威力：<hex:0249020103><hex:0248020103>850<hex:02100103><hex:024804F201F803><hex:024904F201F903>發動條件：<hex:0249020103><hex:0248020103><hex:024804F201F403><hex:024904F201F503>劍氣<hex:0249020103><hex:0248020103>50點<hex:020857E4E94523FF4F02084BE0E94949FF4302100103E88887024804F201F403024904F201F503E5BF85E6AEBAE58A8DC2B7E99683E5BDB102490201030248020103E585B1E4BAABE8A487E594B1E69982E99693FF0103FF0103>";
+        fw.write(fstr2+"\n");
+        fw.write(FFXIVString.parseFFXIVString(FFXIVString.fstr2bytes(fstr2))+"\n");
+        fw.write(HexUtils.bytesToHexString(HexUtils.hexStringToBytes(hex))+"\n");
+        fw.write(HexUtils.bytesToHexString(FFXIVString.fstr2bytes(fstr2))+"\n");
+        fw.write(HexUtils.bytesToHexString(FFXIVString.fstr2bytes(FFXIVString.parseFFXIVString(FFXIVString.fstr2bytes(fstr2))))+"\n");
+
+
+
+
+        fw.close();
     }
 }

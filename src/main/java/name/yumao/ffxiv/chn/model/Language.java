@@ -1,12 +1,10 @@
 package name.yumao.ffxiv.chn.model;
 
 public enum Language {
-    CHS("简体中文", "CHS"),
-    CHT("正體中文", "CHT"),
-    JA("日语", "JA"),
-    EN("英文", "EN"),
-    DE("德语", "DE"),
-    FR("法语", "FR");
+    JA("JA", "JA"),
+    EN("EN", "EN"),
+    DE("DE", "DE"),
+    FR("FR", "FR");
 
     private String name;
     private String lang;
@@ -26,7 +24,7 @@ public enum Language {
     }
 
     public static void main(String[] args) {
-        System.out.println(Language.toLang("正體中文"));
+        System.out.println(Language.toLang("JA"));
     }
 
 }
