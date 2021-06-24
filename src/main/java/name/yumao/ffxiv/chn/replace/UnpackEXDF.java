@@ -87,9 +87,10 @@ public class UnpackEXDF {
 						// 分析資源檔
 						EXDFFile ja_exd = new EXDFFile(exdFileJA);
 						//準備輸出CSV
+
 						File createPath = new File("output"+File.separator+unpackPath+File.separator+filePath +File.separator+ exdFileName+".csv");
 						createPath.getParentFile().mkdirs();
-						FileWriter fileWriter = new FileWriter(createPath.getAbsolutePath());
+						OutputStreamWriter fileWriter = new OutputStreamWriter(new FileOutputStream(createPath.getAbsolutePath()),"UTF-8");
 						CSVWriter exportCSV = new CSVWriter(fileWriter, ',', CSVWriter.DEFAULT_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER,CSVWriter.DEFAULT_LINE_END );
 						//載入每行資料
 						HashMap<Integer, byte[]> jaExdList = ja_exd.getEntrys();

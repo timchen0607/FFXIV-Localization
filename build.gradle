@@ -1,3 +1,4 @@
+
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'application'
@@ -11,7 +12,6 @@ sourceSets {
 		output.resourcesDir = file('build/bin')
 	}
 }
-sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
@@ -44,7 +44,8 @@ distributions {
 		}
 	}
 }
+compileJava.options.encoding = 'UTF-8'
 
 tasks.withType(JavaCompile) {
-	options.encoding = "UTF-8"
+	options.encoding = 'UTF-8'
 }

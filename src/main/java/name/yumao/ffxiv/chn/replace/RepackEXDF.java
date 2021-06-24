@@ -9,6 +9,7 @@ import name.yumao.ffxiv.chn.util.*;
 import name.yumao.ffxiv.chn.util.res.Config;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.Map.Entry;
 public class RepackEXDF {
@@ -95,7 +96,7 @@ public class RepackEXDF {
 						if (!mergePath.exists()){
 							continue;
 						}
-						FileReader fileReader = new FileReader(mergePath.getAbsolutePath());
+						FileReader fileReader = new FileReader(mergePath.getAbsolutePath(), Charset.forName("UTF-8"));
 						CSVReader importCSV = new CSVReader(fileReader);
 						//載入每行資料
 						HashMap<Integer, byte[]> jaExdList = ja_exd.getEntrys();
