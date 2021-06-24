@@ -30,7 +30,7 @@ public class UnpackThread implements Runnable{
 
             JOptionPane.showMessageDialog(null, "Success", "Success", JOptionPane.PLAIN_MESSAGE);
             percentPanel.dispose();
-            processPanel.repackButton.setEnabled(true);
+            processPanel.unpackButton.setEnabled(true);
         }catch (Exception exception){
             JOptionPane.showMessageDialog(null, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             exception.printStackTrace();
