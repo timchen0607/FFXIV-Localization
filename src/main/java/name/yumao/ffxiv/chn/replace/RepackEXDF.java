@@ -71,11 +71,11 @@ public class RepackEXDF {
 				// 分析描述檔
 				EXHFFile exhSE = new EXHFFile(exhFileSE);
 				//只取有語言資訊的描述檔
-				if (exhSE.getLangs().length > 0 && exhSE.getLangs()[0]!=0) {
+				if (exhSE.getLangs().length > 0 && exhSE.getLangs()[0] != 0) {
 					// 分頁編號
 					for (EXDFPage exdfPage : exhSE.getPages()) {
 						// 準備資源檔名稱
-						String exdFileName = (fileName.replace(".EXH", "_" + exdfPage.pageNum + "_"+lang+".EXD")).toLowerCase();
+						String exdFileName = (fileName.replace(".EXH", "_" + exdfPage.pageNum + "_" + lang + ".EXD")).toLowerCase();
 						// 計算資源檔 hash
 						Integer exdFileCRCJA = FFCRC.ComputeCRC(exdFileName.getBytes());
 						// 透過hash搜尋資源檔位址
@@ -84,46 +84,66 @@ public class RepackEXDF {
 						try {
 							//讀取資源檔
 							exdFileJA = extractFile(pathToIndexSE, exdIndexFileJA.getOffset());
-						}catch (Exception jaEXDFileException){
+						} catch (Exception jaEXDFileException) {
 							System.out.println("Unpack Fail : " + Arrays.toString(exhSE.getLangs()));
-							System.out.println("Unpack Fail : " +filePath+File.separator+ exdFileName);
+							System.out.println("Unpack Fail : " + filePath + File.separator + exdFileName);
 							continue;
 						}
 						// 分析資源檔
 						EXDFFile ja_exd = new EXDFFile(exdFileJA);
 						//載入CSV
-						File mergePath = new File("output"+File.separator+"merge"+File.separator+filePath +File.separator+ exdFileName+".csv");
-						if (!mergePath.exists()){
+						File mergePath = new File("output" + File.separator + "merge" + File.separator + filePath + File.separator + exdFileName + ".csv");
+						if (!mergePath.exists()) {
 							continue;
 						}
 						FileReader fileReader = new FileReader(mergePath.getAbsolutePath(), Charset.forName("UTF-8"));
 						CSVReader importCSV = new CSVReader(fileReader);
 						//載入每行資料
 						HashMap<Integer, byte[]> jaExdList = ja_exd.getEntrys();
+						String s[] = importCSV.readNext();
+						Map<String, List<String>> csvData = new HashMap<>();
+						while(s != null) {
+							List<String> fileValues = Arrays.asList(s);
+							csvData.put(fileValues.get(0), fileValues);
+							s = importCSV.readNext();
+						} ;
+
 						for (Entry<Integer, byte[]> listEntry : jaExdList.entrySet()) {
-							List<String> fileValues =  Arrays.asList(importCSV.readNext());
 							//編號
 							Integer listEntryIndex = listEntry.getKey();
 							//檢查編號
-							if (!listEntryIndex.toString().equals(fileValues.get(0))  ){
-								throw new Exception("Repack Fail : " +filePath+File.separator+ exdFileName + " - "+ listEntryIndex +"!="+ fileValues.get(0));
+							List<String> fileValues = csvData.getOrDefault(listEntryIndex.toString(), null);
+							if (fileValues == null) {
+								continue;
 							}
 							// 分析每行資料
 							EXDFEntry exdfEntryJA = new EXDFEntry(listEntry.getValue(), exhSE.getDatasetChunkSize());
 							LERandomBytes chunk = new LERandomBytes(new byte[exdfEntryJA.getChunk().length], true, false);
 							chunk.write(exdfEntryJA.getChunk());
 							byte[] newFFXIVString = new byte[0];
-							int fieldCount=1;
-							for ( EXDFDataset exdfDatasetSE : exhSE.getDatasets()) {
-								//分析每欄資料
-								if (exdfDatasetSE.type == 0x00) {
-									chunk.seek(exdfDatasetSE.offset);
-									chunk.writeInt(newFFXIVString.length);
-									byte[] jaBytes = FFXIVString.fstr2bytes(fileValues.get(fieldCount));
-									newFFXIVString = ArrayUtil.append(newFFXIVString, jaBytes);
-									newFFXIVString = ArrayUtil.append(newFFXIVString, new byte[]{0x00});
+							int fieldCount = 1;
+							try {
+								for (EXDFDataset exdfDatasetSE : exhSE.getDatasets()) {
+									//分析每欄資料
+									if (exdfDatasetSE.type == 0x00) {
+										String raw = "";
+										try {
+											raw = fileValues.get(fieldCount);
+										}catch(Exception e){
+											continue;
+										}
+										chunk.seek(exdfDatasetSE.offset);
+										chunk.writeInt(newFFXIVString.length);
+										byte[] jaBytes = FFXIVString.fstr2bytes(raw);
+										newFFXIVString = ArrayUtil.append(newFFXIVString, jaBytes);
+										newFFXIVString = ArrayUtil.append(newFFXIVString, new byte[]{0x00});
+									}
+									fieldCount++;
 								}
-								fieldCount++;
+							}catch(Exception e){
+								System.out.println(fileValues);
+								System.out.println(exdFileName);
+								throw e;
 							}
 							// 打包整个Entry %4 Padding
 							byte[] newEntryBody = ArrayUtil.append(chunk.getWork(), newFFXIVString);
