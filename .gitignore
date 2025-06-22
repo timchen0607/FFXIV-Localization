@@ -1,6 +1,7 @@
 /.gradle
 /.vscode
 /build
+/conf
 /resource
 /output
 /bin
