@@ -5,6 +5,7 @@ import name.yumao.ffxiv.chn.builder.TexBlockBuilder;
 import name.yumao.ffxiv.chn.model.SqPackIndex;
 import name.yumao.ffxiv.chn.model.SqPackIndexFile;
 import name.yumao.ffxiv.chn.model.SqPackIndexFolder;
+import name.yumao.ffxiv.chn.swing.PercentPanel;
 import name.yumao.ffxiv.chn.util.FFCRC;
 import name.yumao.ffxiv.chn.util.LERandomAccessFile;
 
@@ -15,29 +16,33 @@ import java.util.HashMap;
 
 public class ReplaceFont {
 
-	private final String pathToIndex;
+	private final String outputFolder;
 	private final String resourceFolder;
+	private final PercentPanel percentPanel;
 
-	public ReplaceFont(String pathToIndex, String resourceFolder) {
-		this.pathToIndex = pathToIndex;
+	public ReplaceFont(String outputFolder, String resourceFolder,PercentPanel percentPanel) {
+		this.outputFolder = outputFolder;
 		this.resourceFolder = resourceFolder;
+		this.percentPanel = percentPanel;
 	}
 
 	public void replace() throws Exception {
 
 		System.out.println("Loading Index File...");
-		HashMap<Integer, SqPackIndexFolder> index = new SqPackIndex(pathToIndex).resloveIndex();
+		HashMap<Integer, SqPackIndexFolder> index = new SqPackIndex(outputFolder).resloveIndex();
 		System.out.println("Loading Index Complete");
 
-		LERandomAccessFile leIndexFile = new LERandomAccessFile(pathToIndex, "rw");
-		LERandomAccessFile leDatFile = new LERandomAccessFile(pathToIndex.replace("index", "dat0"), "rw");
+		LERandomAccessFile leIndexFile = new LERandomAccessFile(outputFolder, "rw");
+		LERandomAccessFile leDatFile = new LERandomAccessFile(outputFolder.replace("index", "dat0"), "rw");
 
 		long datLength = leDatFile.length();
 		leDatFile.seek(datLength);
-
+		int fileCount=0;
+		//走訪清單檔案
 		File resourceFolderFile = new File(resourceFolder);
 		if (resourceFolderFile.isDirectory()) {
 			for (File resourceFile : resourceFolderFile.listFiles()) {
+				percentPanel.percentShow((double)(++fileCount) / (double)resourceFolderFile.listFiles().length, "Replace : " + resourceFile.getName());
 				if (resourceFile.isFile()) {
 					//read file
 					LERandomAccessFile lera = new LERandomAccessFile(resourceFile, "r");
@@ -70,23 +75,6 @@ public class ReplaceFont {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		
-		File inputFolder = new File("input");
-		
-		if(inputFolder.isDirectory() && inputFolder.list().length > 0) {
-			for(File inputFile : inputFolder.listFiles()) {
-				if(inputFile.isFile()) {
-					LERandomAccessFile lera = new LERandomAccessFile("input" + File.separator + inputFile.getName(), "r");
-					byte[] dist = new byte[(int)lera.length()];
-					lera.readFully(dist);
-					lera.close();
-					FileOutputStream fos = new FileOutputStream(new File("output" + File.separator + inputFile.getName()));
-					fos.write(dist);
-					fos.flush();
-					fos.close();
-				}
-			}
-		}
-		new ReplaceFont("output" + File.separator + "000000.win32.index", "resource").replace();
+
 	}
 }

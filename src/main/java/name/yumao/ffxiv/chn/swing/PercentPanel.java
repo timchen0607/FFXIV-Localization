@@ -69,6 +69,19 @@ public class PercentPanel extends JFrame implements ActionListener {
         closeButton.setContentAreaFilled(false);
         closeButton.setFocusable(false);
         closeButton.addActionListener(this);
+        // 新增滑鼠事件
+        closeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeButton.setBackground(new Color(220, 53, 69));
+                closeButton.setContentAreaFilled(true);
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeButton.setBackground(null);
+                closeButton.setContentAreaFilled(false);
+            }
+        });
         add(closeButton,0);
 
         //主要面板

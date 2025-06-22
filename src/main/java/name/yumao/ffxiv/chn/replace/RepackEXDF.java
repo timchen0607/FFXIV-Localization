@@ -45,7 +45,7 @@ public class RepackEXDF {
 		int fileCount=0;
 		//走訪清單檔案
 		for (String unpackFile : fileList) {
-			percentPanel.percentShow((double)(++fileCount) / (double)fileList.size());
+			percentPanel.percentShow((double)(++fileCount) / (double)fileList.size(),unpackFile);
 			//只看head描述檔
 			if (unpackFile.toUpperCase().endsWith(".EXH")) {
 				// 切開路徑和檔名以供計算CRC hashmap
