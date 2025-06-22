@@ -8,8 +8,8 @@ sourceSets {
 	main {
 		java.srcDir('src/main/java')
 		resources.srcDir('src/main/resources')
-		java.outputDir = file('build/bin')
-		output.resourcesDir = file('build/bin')
+		// java.outputDir = file('build/bin')
+		// output.resourcesDir = file('build/bin')
 	}
 }
 
@@ -18,7 +18,7 @@ repositories {
 }
 dependencies {
 	implementation("com.jcraft:jzlib:1.1.3")
-	implementation("com.opencsv:opencsv:5.4")
+	implementation("com.opencsv:opencsv:5.11")
 }
 
 mainClassName = "name.yumao.ffxiv.chn.FFXIVPatchMain"

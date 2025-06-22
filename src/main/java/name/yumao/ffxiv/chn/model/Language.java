@@ -3,8 +3,10 @@ package name.yumao.ffxiv.chn.model;
 public enum Language {
     JA("JA", "JA"),
     EN("EN", "EN"),
-    DE("DE", "DE"),
-    FR("FR", "FR");
+    // DE("DE", "DE"),
+    // FR("FR", "FR"),
+    TC("TC", "TC"),
+    CHS("CHS", "CHS");
 
     private final String name;
     private final String lang;

@@ -141,8 +141,9 @@ public class ProcessPanel extends JFrame implements ActionListener {
         langLableVal = new JComboBox<String>();
         langLableVal.addItem("JA");
         langLableVal.addItem("EN");
-        langLableVal.addItem("DE");
-        langLableVal.addItem("FR");
+        // langLableVal.addItem("DE");
+        // langLableVal.addItem("FR");
+        langLableVal.addItem("TC");
         langLableVal.addItem("CHS");
         langLableVal.setBounds(100, 100, 160, 23);
         langLableVal.setFont(new Font("Microsoft Yahei",Font.BOLD,13));
