@@ -7,8 +7,7 @@ import java.io.File;
 
 public class FFXIVPatchMain {
     public static void main(String[] args) {
-        Config.setConfigResource("conf" + File.separator + "global.properties");
-        String path = Config.getProperty("InputPath");
+        Config.setConfigResource("global.properties");
         new ProcessPanel();
     }
 

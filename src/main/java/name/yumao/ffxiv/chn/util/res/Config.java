@@ -99,6 +99,5 @@ public class Config {
 
 
 	public static void main(String[] args) {
-		Config.setConfigResource("transtable", "conf" + File.separator + "transtable.properties");
 	}
 }
