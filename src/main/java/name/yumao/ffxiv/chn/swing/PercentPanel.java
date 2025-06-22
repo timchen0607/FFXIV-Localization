@@ -40,12 +40,12 @@ public class PercentPanel extends JFrame implements ActionListener {
         JLabel title_lable = new JLabel(title);
 
         titlePanel.setBounds(0, 0, 290, 30);
-        titlePanel.setBackground(new Color(110, 110, 110));
-        titlePanel.setBorder(new MatteBorder(0, 0, 0, 0, new Color(110, 110, 110)));
+        titlePanel.setBackground(new Color(63, 177, 149));
+        titlePanel.setBorder(new MatteBorder(0, 0, 0, 0, new Color(63, 177, 149)));
         add(titlePanel);
         bodyPanel.setBounds(0, 0, 290, 60);
         bodyPanel.setBackground(new Color(255, 255, 255));
-        bodyPanel.setBorder(new MatteBorder(0, 1, 1, 1, new Color(110, 110, 110)));
+        bodyPanel.setBorder(new MatteBorder(0, 1, 1, 1, new Color(63, 177, 149)));
         add(bodyPanel);
         title_lable.setBounds(10, 0, 150, 30);
         title_lable.setFont(new Font("Microsoft Yahei", Font.BOLD, 13));
