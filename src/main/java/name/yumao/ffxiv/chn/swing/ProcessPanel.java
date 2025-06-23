@@ -31,7 +31,6 @@ import name.yumao.ffxiv.chn.util.FileUtil;
 import name.yumao.ffxiv.chn.util.HexUtils;
 import name.yumao.ffxiv.chn.util.res.Config;
 
-
 public class ProcessPanel extends JFrame implements ActionListener {
 
     private static final Point origin = new Point();
@@ -57,7 +56,6 @@ public class ProcessPanel extends JFrame implements ActionListener {
     private static final String[] fontResourceNames = {"000000.win32.dat0", "000000.win32.index", "000000.win32.index2"};
     private static final String[] packResourceNames = {"0a0000.win32.dat0", "0a0000.win32.index", "0a0000.win32.index2"};
 
-
     public ProcessPanel() {
         super(title);
         setUndecorated(true);
@@ -66,7 +64,7 @@ public class ProcessPanel extends JFrame implements ActionListener {
         setBounds((toolkit.getScreenSize().width - 500) / 2, (toolkit.getScreenSize().height - 180) / 2, 500, 180);
         setResizable(false);
         setLayout(null);
-        
+
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 origin.x = e.getX();
@@ -76,7 +74,7 @@ public class ProcessPanel extends JFrame implements ActionListener {
         addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
                 Point p = getLocation();
-                setLocation(p.x + e.getX() - origin.x, p.y + e.getY()- origin.y);
+                setLocation(p.x + e.getX() - origin.x, p.y + e.getY() - origin.y);
             }
         });
 
@@ -107,13 +105,14 @@ public class ProcessPanel extends JFrame implements ActionListener {
                 closeButton.setBackground(new Color(220, 53, 69));
                 closeButton.setContentAreaFilled(true);
             }
+
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 closeButton.setBackground(null);
                 closeButton.setContentAreaFilled(false);
             }
         });
-        add(closeButton,0);
+        add(closeButton, 0);
 
         //主要面板
         bodyPanel.setBounds(0, 30, 500, 150);
@@ -123,31 +122,30 @@ public class ProcessPanel extends JFrame implements ActionListener {
 
         // 來源目錄
         inputPathLable.setBounds(20, 45, 50, 30);
-        inputPathLable.setFont(new Font("Microsoft Yahei",Font.BOLD,14));
-        inputPathLable.setForeground(new Color(10,10,10));
-        add(inputPathLable,0);
+        inputPathLable.setFont(new Font("Microsoft Yahei", Font.BOLD, 14));
+        inputPathLable.setForeground(new Color(10, 10, 10));
+        add(inputPathLable, 0);
         inputPathField.setBounds(70, 45, 380, 30);
-        inputPathField.setFont(new Font("Microsoft Yahei",Font.BOLD,14));
-        inputPathField.setForeground(new Color(110,110,110));
+        inputPathField.setFont(new Font("Microsoft Yahei", Font.BOLD, 14));
+        inputPathField.setForeground(new Color(110, 110, 110));
         inputPathField.setEditable(false);
-        add(inputPathField,0);
+        add(inputPathField, 0);
         inputPathButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         inputPathButton.setBounds(450, 45, 30, 30);
-        inputPathButton.setFont(new Font("Microsoft Yahei",Font.BOLD,14));
-        inputPathButton.setForeground(new Color(110,110,110));
+        inputPathButton.setFont(new Font("Microsoft Yahei", Font.BOLD, 14));
+        inputPathButton.setForeground(new Color(110, 110, 110));
         inputPathButton.setMargin(new Insets(0, 0, 0, 0));
         inputPathButton.setOpaque(false);
         inputPathButton.setIconTextGap(0);
         inputPathButton.setContentAreaFilled(false);
         inputPathButton.setFocusable(false);
         inputPathButton.addActionListener(this);
-        add(inputPathButton,0);
-
+        add(inputPathButton, 0);
 
         langLable.setBounds(20, 85, 50, 30);
-        langLable.setFont(new Font("Microsoft Yahei",Font.BOLD,14));
-        langLable.setForeground(new Color(10,10,10));
-        add(langLable,0);
+        langLable.setFont(new Font("Microsoft Yahei", Font.BOLD, 14));
+        langLable.setForeground(new Color(10, 10, 10));
+        add(langLable, 0);
         langLableVal.setCursor(new Cursor(Cursor.HAND_CURSOR));
         langLableVal.addItem("JA");
         langLableVal.addItem("EN");
@@ -156,17 +154,17 @@ public class ProcessPanel extends JFrame implements ActionListener {
         langLableVal.addItem("TC");
         langLableVal.addItem("CHS");
         langLableVal.setBounds(70, 85, 180, 30);
-        langLableVal.setFont(new Font("Microsoft Yahei",Font.BOLD,14));
-        langLableVal.setForeground(new Color(110,110,110));
+        langLableVal.setFont(new Font("Microsoft Yahei", Font.BOLD, 14));
+        langLableVal.setForeground(new Color(110, 110, 110));
         langLableVal.setOpaque(false);
         langLableVal.setFocusable(false);
-        add(langLableVal,0);
+        add(langLableVal, 0);
 
         //拆包
         unpackButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         unpackButton.setBounds(20, 130, 70, 34);
-        unpackButton.setFont(new Font("Microsoft Yahei",Font.PLAIN,22));
-        unpackButton.setForeground(new Color(10,10,10));
+        unpackButton.setFont(new Font("Microsoft Yahei", Font.PLAIN, 22));
+        unpackButton.setForeground(new Color(10, 10, 10));
         unpackButton.setMargin(new Insets(0, 0, 0, 0));
         unpackButton.setOpaque(false);
         unpackButton.setIconTextGap(0);
@@ -174,13 +172,13 @@ public class ProcessPanel extends JFrame implements ActionListener {
         unpackButton.setFocusable(false);
         unpackButton.addActionListener(this);
         unpackButton.setEnabled(true);
-        add(unpackButton,0);
+        add(unpackButton, 0);
 
         //打包
         repackButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         repackButton.setBounds(100, 130, 70, 34);
-        repackButton.setFont(new Font("Microsoft Yahei",Font.PLAIN,22));
-        repackButton.setForeground(new Color(10,10,10));
+        repackButton.setFont(new Font("Microsoft Yahei", Font.PLAIN, 22));
+        repackButton.setForeground(new Color(10, 10, 10));
         repackButton.setMargin(new Insets(0, 0, 0, 0));
         repackButton.setOpaque(false);
         repackButton.setIconTextGap(0);
@@ -188,13 +186,13 @@ public class ProcessPanel extends JFrame implements ActionListener {
         repackButton.setFocusable(false);
         repackButton.addActionListener(this);
         repackButton.setEnabled(true);
-        add(repackButton,0);
+        add(repackButton, 0);
 
         // 源泉字體
         gensenPatchButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         gensenPatchButton.setBounds(230, 130, 120, 34);
-        gensenPatchButton.setFont(new Font("Microsoft Yahei",Font.PLAIN,22));
-        gensenPatchButton.setForeground(new Color(10,10,10));
+        gensenPatchButton.setFont(new Font("Microsoft Yahei", Font.PLAIN, 22));
+        gensenPatchButton.setForeground(new Color(10, 10, 10));
         gensenPatchButton.setMargin(new Insets(0, 0, 0, 0));
         gensenPatchButton.setOpaque(false);
         gensenPatchButton.setIconTextGap(0);
@@ -202,13 +200,13 @@ public class ProcessPanel extends JFrame implements ActionListener {
         gensenPatchButton.setFocusable(false);
         gensenPatchButton.addActionListener(this);
         gensenPatchButton.setEnabled(true);
-        add(gensenPatchButton,0);
-        
+        add(gensenPatchButton, 0);
+
         // 蘋方字體
         pingfangPatchButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         pingfangPatchButton.setBounds(360, 130, 120, 34);
-        pingfangPatchButton.setFont(new Font("Microsoft Yahei",Font.PLAIN,22));
-        pingfangPatchButton.setForeground(new Color(10,10,10));
+        pingfangPatchButton.setFont(new Font("Microsoft Yahei", Font.PLAIN, 22));
+        pingfangPatchButton.setForeground(new Color(10, 10, 10));
         pingfangPatchButton.setMargin(new Insets(0, 0, 0, 0));
         pingfangPatchButton.setOpaque(false);
         pingfangPatchButton.setIconTextGap(0);
@@ -216,14 +214,15 @@ public class ProcessPanel extends JFrame implements ActionListener {
         pingfangPatchButton.setFocusable(false);
         pingfangPatchButton.addActionListener(this);
         pingfangPatchButton.setEnabled(true);
-        add(pingfangPatchButton,0);
+        add(pingfangPatchButton, 0);
 
         setVisible(false);
         setVisible(true);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == inputPathButton) {
+        if (e.getSource() == inputPathButton) {
             JFileChooser pathChooser = new JFileChooser();
             pathChooser.setDialogTitle("請選擇處理目錄...");
             pathChooser.setCurrentDirectory(new File(Config.getProperty("InputPath")));
@@ -235,14 +234,14 @@ public class ProcessPanel extends JFrame implements ActionListener {
                 inputPathField.setCaretPosition(0);
             }
         }
-        
-        if(e.getSource() == gensenPatchButton) {
+
+        if (e.getSource() == gensenPatchButton) {
             String inputPath = inputPathField.getText();
             String outputPath = "output" + File.separator + "Font_Gensen";
-            if (!hasFontSqpack(inputPath) ) {
+            if (!hasFontSqpack(inputPath)) {
                 String fileNames = String.join("、", fontResourceNames);
                 JOptionPane.showMessageDialog(null, "需包含" + fileNames, "請選擇正確來源目錄", JOptionPane.ERROR_MESSAGE);
-            }else {
+            } else {
                 Config.setProperty("InputPath", inputPath);
                 Config.saveProperty();
                 for (String resourceName : fontResourceNames) {
@@ -255,16 +254,16 @@ public class ProcessPanel extends JFrame implements ActionListener {
                 FontPatchThread fontPatchThread = new FontPatchThread("Font_Gensen", this);
                 Thread patchFileThread = new Thread(fontPatchThread);
                 patchFileThread.start();
-            } 
+            }
         }
 
-        if(e.getSource() == pingfangPatchButton) {
+        if (e.getSource() == pingfangPatchButton) {
             String inputPath = inputPathField.getText();
             String outputPath = "output" + File.separator + "Font_Pingfang";
-            if (!hasFontSqpack(inputPath) ) {
+            if (!hasFontSqpack(inputPath)) {
                 String fileNames = String.join("、", fontResourceNames);
                 JOptionPane.showMessageDialog(null, "需包含" + fileNames, "請選擇正確來源目錄", JOptionPane.ERROR_MESSAGE);
-            }else {
+            } else {
                 Config.setProperty("InputPath", inputPath);
                 Config.saveProperty();
                 for (String resourceName : fontResourceNames) {
@@ -273,20 +272,20 @@ public class ProcessPanel extends JFrame implements ActionListener {
                         FileUtil.copyToFolder(resourceFile, outputPath);
                     }
                 }
-                
+
                 FontPatchThread fontPatchThread = new FontPatchThread("Font_Pingfang", this);
                 Thread patchFileThread = new Thread(fontPatchThread);
                 patchFileThread.start();
             }
         }
-        
-        if(e.getSource() == unpackButton) {
+
+        if (e.getSource() == unpackButton) {
             String inputPath = inputPathField.getText();
             String lang = Language.toLang((String) langLableVal.getSelectedItem());
-            if (!hasDataSqpack(inputPath) ) {
+            if (!hasDataSqpack(inputPath)) {
                 String fileNames = String.join("、", packResourceNames);
                 JOptionPane.showMessageDialog(null, "需包含" + fileNames, "請選擇正確來源目錄", JOptionPane.ERROR_MESSAGE);
-            }else{
+            } else {
                 Config.setProperty("InputPath", inputPath);
                 Config.setProperty("Language", Language.toLang(lang));
                 Config.saveProperty();
@@ -297,14 +296,14 @@ public class ProcessPanel extends JFrame implements ActionListener {
             }
         }
 
-        if(e.getSource() == repackButton) {
+        if (e.getSource() == repackButton) {
             String inputPath = inputPathField.getText();
             String lang = Language.toLang((String) langLableVal.getSelectedItem());
-            String outputPath = "output" + File.separator + "Pack_" +lang;
+            String outputPath = "output" + File.separator + "Pack_" + lang;
             if (!hasDataSqpack(inputPath)) {
                 String fileNames = String.join("、", packResourceNames);
                 JOptionPane.showMessageDialog(null, "需包含" + fileNames, "請選擇正確來源目錄", JOptionPane.ERROR_MESSAGE);
-            }else {
+            } else {
                 Config.setProperty("InputPath", inputPath);
                 Config.setProperty("Language", Language.toLang(lang));
                 Config.saveProperty();
@@ -314,7 +313,7 @@ public class ProcessPanel extends JFrame implements ActionListener {
                         FileUtil.copyToFolder(resourceFile, outputPath);
                     }
                 }
-                
+
                 RepackThread repackThread = new RepackThread(outputPath, this);
                 Thread repackFileThread = new Thread(repackThread);
                 repackFileThread.start();
@@ -332,6 +331,7 @@ public class ProcessPanel extends JFrame implements ActionListener {
         gensenPatchButton.setEnabled(true);
         pingfangPatchButton.setEnabled(true);
     }
+
     public void disableAllButtons() {
         unpackButton.setEnabled(false);
         repackButton.setEnabled(false);
@@ -339,23 +339,26 @@ public class ProcessPanel extends JFrame implements ActionListener {
         pingfangPatchButton.setEnabled(false);
     }
 
-    private boolean hasFontSqpack(String path){
-        if(path == null)
+    private boolean hasFontSqpack(String path) {
+        if (path == null) {
             return false;
-        for(String resourceName :fontResourceNames){
+        }
+        for (String resourceName : fontResourceNames) {
             File resourceFile = new File(path + File.separator + resourceName);
-            if(!resourceFile.exists() || !resourceFile.isFile()){
+            if (!resourceFile.exists() || !resourceFile.isFile()) {
                 return false;
             }
         }
         return true;
     }
-    private boolean hasDataSqpack(String path){
-        if(path == null)
+
+    private boolean hasDataSqpack(String path) {
+        if (path == null) {
             return false;
-        for(String resourceName :packResourceNames){
+        }
+        for (String resourceName : packResourceNames) {
             File resourceFile = new File(path + File.separator + resourceName);
-            if(!resourceFile.exists() || !resourceFile.isFile()){
+            if (!resourceFile.exists() || !resourceFile.isFile()) {
                 return false;
             }
         }

@@ -1,12 +1,24 @@
 package name.yumao.ffxiv.chn.swing;
 
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.MatteBorder;
 
 import name.yumao.ffxiv.chn.util.HexUtils;
-
-import javax.swing.*;
-import javax.swing.border.MatteBorder;
-import java.awt.*;
-import java.awt.event.*;
 
 public class PercentPanel extends JFrame implements ActionListener {
 
@@ -30,7 +42,7 @@ public class PercentPanel extends JFrame implements ActionListener {
         setUndecorated(true);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         setIconImage(toolkit.createImage(HexUtils.hexStringToBytes(icon)));
-        setBounds((toolkit.getScreenSize().width-300)/2, (toolkit.getScreenSize().height-100)/2, 300, 100);
+        setBounds((toolkit.getScreenSize().width - 300) / 2, (toolkit.getScreenSize().height - 100) / 2, 300, 100);
         setVisible(true);
         setResizable(false);
         setLayout(null);
@@ -44,7 +56,7 @@ public class PercentPanel extends JFrame implements ActionListener {
         addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
                 Point p = getLocation();
-                setLocation(p.x + e.getX() - origin.x, p.y + e.getY()- origin.y);
+                setLocation(p.x + e.getX() - origin.x, p.y + e.getY() - origin.y);
             }
         });
 
@@ -60,8 +72,8 @@ public class PercentPanel extends JFrame implements ActionListener {
         add(titleLabel, 0);
         closeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         closeButton.setBounds(270, 0, 30, 30);
-        closeButton.setFont(new Font("Microsoft Yahei",Font.BOLD,14));
-        closeButton.setForeground(new Color(255,255,255));
+        closeButton.setFont(new Font("Microsoft Yahei", Font.BOLD, 14));
+        closeButton.setForeground(new Color(255, 255, 255));
         closeButton.setMargin(new Insets(0, 0, 0, 0));
         closeButton.setBorder(null);
         closeButton.setOpaque(false);
@@ -76,29 +88,30 @@ public class PercentPanel extends JFrame implements ActionListener {
                 closeButton.setBackground(new Color(220, 53, 69));
                 closeButton.setContentAreaFilled(true);
             }
+
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 closeButton.setBackground(null);
                 closeButton.setContentAreaFilled(false);
             }
         });
-        add(closeButton,0);
+        add(closeButton, 0);
 
         //主要面板
         bodyPanel.setBounds(0, 30, 300, 70);
         bodyPanel.setBackground(new Color(255, 255, 255));
         bodyPanel.setBorder(new MatteBorder(0, 1, 1, 1, new Color(63, 177, 149)));
         add(bodyPanel);
-        
+
         // 百分比面板
         percentBackPanel.setBounds(20, 45, 260, 15);
-        percentBackPanel.setForeground(new Color(255,255,255));
-        percentBackPanel.setBorder(new MatteBorder(1, 1, 1, 1, new Color(63 ,177,149)));
-        add(percentBackPanel,0);
+        percentBackPanel.setForeground(new Color(255, 255, 255));
+        percentBackPanel.setBorder(new MatteBorder(1, 1, 1, 1, new Color(63, 177, 149)));
+        add(percentBackPanel, 0);
         percentFrontPanel.setBounds(20, 45, 0, 15);
-        percentFrontPanel.setBackground(new Color(63,177,149));
-        percentFrontPanel.setBorder(new MatteBorder(0, 0, 0, 0, new Color(63 ,177,149)));
-        add(percentFrontPanel,0);
+        percentFrontPanel.setBackground(new Color(63, 177, 149));
+        percentFrontPanel.setBorder(new MatteBorder(0, 0, 0, 0, new Color(63, 177, 149)));
+        add(percentFrontPanel, 0);
         logMessageLabel.setBounds(20, 60, 260, 20);
         logMessageLabel.setFont(new Font("Microsoft Yahei", Font.PLAIN, 14));
         logMessageLabel.setForeground(new Color(110, 110, 110));
@@ -115,13 +128,13 @@ public class PercentPanel extends JFrame implements ActionListener {
         }
     }
 
-    public void percentShow(double percent,String message){
-        int nowLength =(int)(260 * percent);
+    public void percentShow(double percent, String message) {
+        int nowLength = (int) (260 * percent);
         percentFrontPanel.setBounds(20, 45, nowLength, 15);
         logMessageLabel.setText(message);
     }
 
     public static void main(String[] args) {
-        new PercentPanel().percentShow(0.8,"Processing...");
+        new PercentPanel().percentShow(0.8, "Processing...");
     }
 }
