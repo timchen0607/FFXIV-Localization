@@ -1,17 +1,39 @@
 package name.yumao.ffxiv.chn.replace;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.opencsv.CSVReader;
+
 import name.yumao.ffxiv.chn.builder.BinaryBlockBuilder;
 import name.yumao.ffxiv.chn.builder.EXDFBuilder;
-import name.yumao.ffxiv.chn.model.*;
+import name.yumao.ffxiv.chn.model.EXDFDataset;
+import name.yumao.ffxiv.chn.model.EXDFEntry;
+import name.yumao.ffxiv.chn.model.EXDFFile;
+import name.yumao.ffxiv.chn.model.EXDFPage;
+import name.yumao.ffxiv.chn.model.EXHFFile;
+import name.yumao.ffxiv.chn.model.SqPackDatFile;
+import name.yumao.ffxiv.chn.model.SqPackIndex;
+import name.yumao.ffxiv.chn.model.SqPackIndexFile;
+import name.yumao.ffxiv.chn.model.SqPackIndexFolder;
 import name.yumao.ffxiv.chn.swing.PercentPanel;
-import name.yumao.ffxiv.chn.util.*;
+import name.yumao.ffxiv.chn.util.ArrayUtil;
+import name.yumao.ffxiv.chn.util.FFCRC;
+import name.yumao.ffxiv.chn.util.FFXIVString;
+import name.yumao.ffxiv.chn.util.LERandomAccessFile;
+import name.yumao.ffxiv.chn.util.LERandomBytes;
 import name.yumao.ffxiv.chn.util.res.Config;
-
-import java.io.*;
-import java.nio.charset.Charset;
-import java.util.*;
-import java.util.Map.Entry;
 public class RepackEXDF {
 
 	private final String pathToIndexSE;
@@ -26,9 +48,9 @@ public class RepackEXDF {
 		this.percentPanel=percentPanel;
 		this.lang = Config.getProperty("Language");
 	}
-	public void repack(String unpackPath) throws Exception {
+	public void repack() throws Exception {
+		File rootPath = new File("output" + File.separator + "Repack_" + lang);
 		System.out.println(String.format("Repack Start : %s",pathToIndexSE));
-		File rootPath = new File("output"+File.separator+unpackPath);
 		System.out.println(String.format("Load From : %s",rootPath.getAbsolutePath()));
 		System.out.println("Loading Root File...");
 		//取得檔案清單
@@ -92,7 +114,7 @@ public class RepackEXDF {
 						// 分析資源檔
 						EXDFFile ja_exd = new EXDFFile(exdFileJA);
 						//載入CSV
-						File mergePath = new File("output" + File.separator + "merge" + File.separator + filePath + File.separator + exdFileName + ".csv");
+						File mergePath = new File(rootPath + File.separator + filePath + File.separator + exdFileName + ".csv");
 						if (!mergePath.exists()) {
 							continue;
 						}

@@ -1,16 +1,34 @@
 package name.yumao.ffxiv.chn.replace;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+
 import com.opencsv.CSVWriter;
-import name.yumao.ffxiv.chn.model.*;
+
+import name.yumao.ffxiv.chn.model.EXDFDataset;
+import name.yumao.ffxiv.chn.model.EXDFEntry;
+import name.yumao.ffxiv.chn.model.EXDFFile;
+import name.yumao.ffxiv.chn.model.EXDFPage;
+import name.yumao.ffxiv.chn.model.EXHFFile;
+import name.yumao.ffxiv.chn.model.SqPackDatFile;
+import name.yumao.ffxiv.chn.model.SqPackIndex;
+import name.yumao.ffxiv.chn.model.SqPackIndexFile;
+import name.yumao.ffxiv.chn.model.SqPackIndexFolder;
 import name.yumao.ffxiv.chn.swing.PercentPanel;
 import name.yumao.ffxiv.chn.util.FFCRC;
 import name.yumao.ffxiv.chn.util.FFXIVString;
 import name.yumao.ffxiv.chn.util.LERandomBytes;
 import name.yumao.ffxiv.chn.util.res.Config;
-
-import java.io.*;
-import java.util.*;
-import java.util.Map.Entry;
 
 public class UnpackEXDF {
 
@@ -20,15 +38,15 @@ public class UnpackEXDF {
 
 	private final String lang;
 
-	public UnpackEXDF(String pathToIndexSE,PercentPanel percentPanel ) {
+	public UnpackEXDF(String pathToIndexSE,PercentPanel percentPanel) {
 		this.pathToIndexSE = pathToIndexSE;
 		this.fileList = new ArrayList<String>();
 		this.percentPanel=percentPanel;
 		this.lang = Config.getProperty("Language");
 	}
-	public void unpack(String unpackPath) throws Exception {
+	public void unpack() throws Exception {
+		File rootPath = new File("output" + File.separator + "Unpack_" + lang);
 		System.out.println(String.format("Unpack Start : %s",pathToIndexSE));
-		File rootPath = new File("output"+File.separator+unpackPath);
 		System.out.println(String.format("Unpack To : %s",rootPath.getAbsolutePath()));
 		System.out.println("Loading Root File...");
 		//取得檔案清單
@@ -40,7 +58,7 @@ public class UnpackEXDF {
 		//走訪清單檔案
 		int fileCount=0;
 		for (String unpackFile : fileList) {
-			percentPanel.percentShow((double)(++fileCount) / (double)fileList.size(),unpackFile);
+			percentPanel.percentShow((double)(++fileCount) / (double)fileList.size(), unpackFile);
 			//只看head描述檔
 			if (unpackFile.toUpperCase().endsWith(".EXH")) {
 				// 切開路徑和檔名以供計算CRC hashmap
@@ -88,7 +106,7 @@ public class UnpackEXDF {
 						EXDFFile ja_exd = new EXDFFile(exdFileJA);
 						//準備輸出CSV
 
-						File createPath = new File("output"+File.separator+unpackPath+File.separator+filePath +File.separator+ exdFileName+".csv");
+						File createPath = new File(rootPath + File.separator + filePath + File.separator + exdFileName + ".csv");
 						createPath.getParentFile().mkdirs();
 						OutputStreamWriter fileWriter = new OutputStreamWriter(new FileOutputStream(createPath.getAbsolutePath()),"UTF-8");
 						CSVWriter exportCSV = new CSVWriter(fileWriter, ',', CSVWriter.DEFAULT_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER,CSVWriter.DEFAULT_LINE_END );

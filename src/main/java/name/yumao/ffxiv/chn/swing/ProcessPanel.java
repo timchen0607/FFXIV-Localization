@@ -1,18 +1,35 @@
 package name.yumao.ffxiv.chn.swing;
 
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.io.File;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.MatteBorder;
+
 import name.yumao.ffxiv.chn.model.Language;
-import name.yumao.ffxiv.chn.thread.UnpackThread;
-import name.yumao.ffxiv.chn.thread.RepackThread;
 import name.yumao.ffxiv.chn.thread.FontPatchThread;
+import name.yumao.ffxiv.chn.thread.RepackThread;
+import name.yumao.ffxiv.chn.thread.UnpackThread;
+import name.yumao.ffxiv.chn.util.FileUtil;
 import name.yumao.ffxiv.chn.util.HexUtils;
 import name.yumao.ffxiv.chn.util.res.Config;
-import name.yumao.ffxiv.chn.util.FileUtil;
-
-import javax.swing.*;
-import javax.swing.border.MatteBorder;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
 
 
 public class ProcessPanel extends JFrame implements ActionListener {
@@ -265,15 +282,16 @@ public class ProcessPanel extends JFrame implements ActionListener {
         
         if(e.getSource() == unpackButton) {
             String inputPath = inputPathField.getText();
+            String lang = Language.toLang((String) langLableVal.getSelectedItem());
             if (!hasDataSqpack(inputPath) ) {
                 String fileNames = String.join("、", packResourceNames);
                 JOptionPane.showMessageDialog(null, "需包含" + fileNames, "請選擇正確來源目錄", JOptionPane.ERROR_MESSAGE);
             }else{
-                String lang = Language.toLang((String) langLableVal.getSelectedItem());
                 Config.setProperty("InputPath", inputPath);
                 Config.setProperty("Language", Language.toLang(lang));
                 Config.saveProperty();
-                UnpackThread unpackThread = new UnpackThread(inputPath, inputPath, this);
+
+                UnpackThread unpackThread = new UnpackThread(inputPath, this);
                 Thread unpackFileThread = new Thread(unpackThread);
                 unpackFileThread.start();
             }
@@ -281,22 +299,23 @@ public class ProcessPanel extends JFrame implements ActionListener {
 
         if(e.getSource() == repackButton) {
             String inputPath = inputPathField.getText();
+            String lang = Language.toLang((String) langLableVal.getSelectedItem());
+            String outputPath = "output" + File.separator + "Pack_" +lang;
             if (!hasDataSqpack(inputPath)) {
                 String fileNames = String.join("、", packResourceNames);
                 JOptionPane.showMessageDialog(null, "需包含" + fileNames, "請選擇正確來源目錄", JOptionPane.ERROR_MESSAGE);
             }else {
-                for (String resourceName : packResourceNames) {
-                    File resourceFile = new File(inputPath + File.separator + resourceName);
-                    if (resourceFile.exists() && resourceFile.isFile()) {
-                        FileUtil.copyToFolder(resourceFile, "output" + File.separator + "output");
-                    }
-                }
-                String lang = Language.toLang((String) langLableVal.getSelectedItem());
                 Config.setProperty("InputPath", inputPath);
                 Config.setProperty("Language", Language.toLang(lang));
                 Config.saveProperty();
-
-                RepackThread repackThread = new RepackThread(new File("output" + File.separator + "output").getAbsolutePath(), this);
+                for (String resourceName : packResourceNames) {
+                    File resourceFile = new File(inputPath + File.separator + resourceName);
+                    if (resourceFile.exists() && resourceFile.isFile()) {
+                        FileUtil.copyToFolder(resourceFile, outputPath);
+                    }
+                }
+                
+                RepackThread repackThread = new RepackThread(outputPath, this);
                 Thread repackFileThread = new Thread(repackThread);
                 repackFileThread.start();
             }
