@@ -1,15 +1,15 @@
-
-apply plugin: 'idea'
-apply plugin: 'java'
-apply plugin: 'application'
-apply plugin: 'java-library'
+plugins {
+    id 'java'
+    id 'application'
+    id 'java-library'
+    id 'idea'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
 
 sourceSets {
 	main {
 		java.srcDir('src/main/java')
 		resources.srcDir('src/main/resources')
-		// java.outputDir = file('build/bin')
-		// output.resourcesDir = file('build/bin')
 	}
 }
 
