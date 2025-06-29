@@ -125,6 +125,10 @@ public class RepackEXDF {
                         //載入每行資料
                         HashMap<Integer, byte[]> jaExdList = ja_exd.getEntrys();
                         String s[] = importCSV.readNext();
+                        // 檢查並移除 BOM
+                        if (s != null && s.length > 0 && s[0] != null && s[0].startsWith("\uFEFF")) {
+                            s[0] = s[0].replaceFirst("^\uFEFF", "");
+                        }
                         Map<String, List<String>> csvData = new HashMap<>();
                         while (s != null) {
                             List<String> fileValues = Arrays.asList(s);
