@@ -40,6 +40,7 @@ public class RepackEXDF {
     private final String pathToIndexSE;
     private final List<String> fileList;
     private final PercentPanel percentPanel;
+    private static Map<String, String> replacementDict = null;
 
     private final String lang;
 
@@ -160,6 +161,7 @@ public class RepackEXDF {
                                         } catch (Exception e) {
                                             continue;
                                         }
+                                        raw = replaceWithDictionary(raw);
                                         chunk.seek(exdfDatasetSE.offset);
                                         chunk.writeInt(newFFXIVString.length);
                                         byte[] jaBytes = FFXIVString.fstr2bytes(raw);
@@ -191,12 +193,16 @@ public class RepackEXDF {
                         leIndexFile.writeInt((int) (datLength / 8));
                         datLength += exdfBlock.length;
                         leDatFile.write(exdfBlock);
+                        // 處理完就刪除 csv 檔案
+                        mergePath.delete();
                     }
                 }
             }
         }
         leDatFile.close();
         leIndexFile.close();
+        // 刪除所有空資料夾
+        deleteEmptyDirs(rootPath);
         System.out.println("Repack Complete");
     }
 
@@ -216,36 +222,25 @@ public class RepackEXDF {
         }
     }
 
-    private static void parsePayload(LERandomBytes inBytes, LERandomBytes outBytes) {
-        int possition = inBytes.position();
-        int type = inBytes.readByte() & 0xFF;
-        int size = getBodySize((inBytes.readByte() & 0xFF), inBytes);
-        byte[] body = new byte[size - 1];
-        inBytes.readFully(body);
-        inBytes.skip();
-        long fullLength = inBytes.position() - possition + 1;
-        byte[] full = new byte[(int) fullLength];
-        inBytes.seek(possition - 1);
-        inBytes.readFully(full);
-        outBytes.write(full);
-    }
-
-    private static int getBodySize(int payloadSize, LERandomBytes inBytes) {
-        if (payloadSize < 0xF0) {
-            return payloadSize;
+    private String replaceWithDictionary(String raw) {
+        if (replacementDict == null) {
+            replacementDict = new HashMap<>();
+            try (BufferedReader br = new BufferedReader(new FileReader("./dictionary.txt", Charset.forName("UTF-8")))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    if (line.trim().isEmpty() || !line.contains("=")) continue;
+                    String[] parts = line.split("=", 2);
+                    replacementDict.put(parts[0], parts[1]);
+                }
+            } catch (IOException e) {
+                System.out.println("讀取 dictionary.txt 失敗: " + e.getMessage());
+            }
         }
-        switch (payloadSize) {
-            case 0xF0:
-                return inBytes.readInt8();
-            case 0xF1:
-            case 0xF2:
-                return inBytes.readInt16();
-            case 0xFA:
-                return inBytes.readInt24();
-            case 0xFE:
-                return inBytes.readInt32();
+        // 依序取代
+        for (Map.Entry<String, String> entry : replacementDict.entrySet()) {
+            raw = raw.replace(entry.getKey(), entry.getValue());
         }
-        return payloadSize;
+        return raw;
     }
 
     private byte[] extractFile(String pathToIndex, long dataOffset) throws IOException {
@@ -258,6 +253,22 @@ public class RepackEXDF {
         byte[] data = datFile.extractFile(dataOffset * 8L, false);
         datFile.close();
         return data;
+    }
+
+     // 遞迴刪除空資料夾
+    private void deleteEmptyDirs(File dir) {
+        if (dir.isDirectory()) {
+            File[] children = dir.listFiles();
+            if (children != null) {
+                for (File child : children) {
+                    deleteEmptyDirs(child);
+                }
+            }
+            // 如果資料夾已經是空的就刪除
+            if (dir.listFiles() == null || dir.listFiles().length == 0) {
+                dir.delete();
+            }
+        }
     }
 
 }

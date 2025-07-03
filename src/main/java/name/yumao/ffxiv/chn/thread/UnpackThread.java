@@ -24,14 +24,14 @@ public class UnpackThread implements Runnable {
     @Override
     public void run() {
         try {
-            processPanel.unpackButton.setEnabled(false);
+            processPanel.disableAllButtons();
             PercentPanel percentPanel = new PercentPanel("拆包中 - " + lang);
 
             new UnpackEXDF(inputFolder, percentPanel).unpack();
 
-            JOptionPane.showMessageDialog(null, lang, "拆包完成", JOptionPane.PLAIN_MESSAGE);
+            // JOptionPane.showMessageDialog(null, lang, "拆包完成", JOptionPane.PLAIN_MESSAGE);
             percentPanel.dispose();
-            processPanel.unpackButton.setEnabled(true);
+            processPanel.enableAllButtons();
         } catch (Exception exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage(), "拆包失敗", JOptionPane.ERROR_MESSAGE);
             exception.printStackTrace();

@@ -46,7 +46,7 @@ public class UnpackEXDF {
     }
 
     public void unpack() throws Exception {
-        File rootPath = new File("output" + File.separator + "Unpack_" + lang);
+        File rootPath = new File("output" + File.separator + "Repack_" + lang);
         System.out.println(String.format("Unpack Start : %s", pathToIndexSE));
         System.out.println(String.format("Unpack To : %s", rootPath.getAbsolutePath()));
         System.out.println("Loading Root File...");

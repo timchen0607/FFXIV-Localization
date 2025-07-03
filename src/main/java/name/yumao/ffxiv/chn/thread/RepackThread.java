@@ -24,14 +24,14 @@ public class RepackThread implements Runnable {
     @Override
     public void run() {
         try {
-            processPanel.repackButton.setEnabled(false);
+            processPanel.disableAllButtons();
             PercentPanel percentPanel = new PercentPanel("打包中 - " + lang);
 
             new RepackEXDF(outputFolder, percentPanel).repack();
 
             JOptionPane.showMessageDialog(null, lang, "打包完成", JOptionPane.PLAIN_MESSAGE);
             percentPanel.dispose();
-            processPanel.repackButton.setEnabled(true);
+            processPanel.enableAllButtons();
         } catch (Exception exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage(), "打包失敗", JOptionPane.ERROR_MESSAGE);
             exception.printStackTrace();

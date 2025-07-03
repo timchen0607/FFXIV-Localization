@@ -62,8 +62,8 @@ public class PercentPanel extends JFrame implements ActionListener {
 
         // 標題面板
         titlePanel.setBounds(0, 0, 300, 30);
-        titlePanel.setBackground(new Color(63, 177, 149));
-        titlePanel.setBorder(new MatteBorder(0, 0, 0, 0, new Color(63, 177, 149)));
+        titlePanel.setBackground(new Color(63, 149, 177));
+        titlePanel.setBorder(new MatteBorder(0, 0, 0, 0, new Color(63, 149, 177)));
         add(titlePanel);
         JLabel titleLabel = new JLabel(title);
         titleLabel.setBounds(10, 0, 200, 30);
@@ -100,17 +100,17 @@ public class PercentPanel extends JFrame implements ActionListener {
         //主要面板
         bodyPanel.setBounds(0, 30, 300, 70);
         bodyPanel.setBackground(new Color(255, 255, 255));
-        bodyPanel.setBorder(new MatteBorder(0, 1, 1, 1, new Color(63, 177, 149)));
+        bodyPanel.setBorder(new MatteBorder(0, 1, 1, 1, new Color(63, 149, 177)));
         add(bodyPanel);
 
         // 百分比面板
         percentBackPanel.setBounds(20, 45, 260, 15);
         percentBackPanel.setForeground(new Color(255, 255, 255));
-        percentBackPanel.setBorder(new MatteBorder(1, 1, 1, 1, new Color(63, 177, 149)));
+        percentBackPanel.setBorder(new MatteBorder(1, 1, 1, 1, new Color(63, 149, 177)));
         add(percentBackPanel, 0);
         percentFrontPanel.setBounds(20, 45, 0, 15);
-        percentFrontPanel.setBackground(new Color(63, 177, 149));
-        percentFrontPanel.setBorder(new MatteBorder(0, 0, 0, 0, new Color(63, 177, 149)));
+        percentFrontPanel.setBackground(new Color(63, 149, 177));
+        percentFrontPanel.setBorder(new MatteBorder(0, 0, 0, 0, new Color(63, 149, 177)));
         add(percentFrontPanel, 0);
         logMessageLabel.setBounds(20, 60, 260, 20);
         logMessageLabel.setFont(new Font("Microsoft Yahei", Font.PLAIN, 14));
